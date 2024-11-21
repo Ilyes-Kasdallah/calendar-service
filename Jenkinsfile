@@ -3,7 +3,8 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/ilyes-kasdallah/calendar-service.git'
+                // Ensure you're pulling the main branch from GitHub
+                git branch: 'main', url: 'https://github.com/Ilyes-Kasdallah/calendar-service.git'
             }
         }
         stage('Build') {
