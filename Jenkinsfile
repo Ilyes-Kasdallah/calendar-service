@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/ilyes-kasdallah/calendar-service.git'
+                git 'https://github.com/Ilyes-Kasdallah/calendar-service.git'
             }
         }
         stage('Build') {
