@@ -1,10 +1,26 @@
 pipeline {
     agent any
     stages {
+        stage('Clean Workspace') {
+            steps {
+                cleanWs()  // Clean workspace before checkout to ensure no stale data
+            }
+        }
         stage('Checkout') {
             steps {
-                 // Ensure you're pulling the main branch from GitHub
-                 git branch: 'main', url: 'https://github.com/Ilyes-Kasdallah/calendar-service.git'
+                script {
+                    echo "Attempting to checkout from the main branch of the GitHub repository"
+                    git branch: 'main', url: 'https://github.com/Ilyes-Kasdallah/calendar-service.git'
+                }
+            }
+        }
+        stage('Test Git') {
+            steps {
+                script {
+                    echo "Checking Git version and status"
+                    sh 'git --version'  // Verify Git installation
+                    sh 'git status'     // Check the status of the repository
+                }
             }
         }
         stage('Build') {
