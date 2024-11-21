@@ -14,16 +14,18 @@ pipeline {
         stage('Docker Build & Push') {
             steps {
                 script {
-                    dockerImage = docker.build("ilyes111/user-service:${env.BUILD_ID}")
-                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-credentials') {
-                        dockerImage.push("${env.BUILD_ID}")
-                        dockerImage.push("latest")
-                    }
+                    // Build the Docker image with the current build ID
+                    dockerImage = docker.build("ilyes111/calendar-service:${env.BUILD_ID}")
+
+                    // Push the image to Docker Hub with the build ID and latest tag
+                    dockerImage.push("${env.BUILD_ID}")
+                    dockerImage.push("latest")
                 }
             }
         }
         stage('Deploy to Kubernetes') {
             steps {
+                // Apply the Kubernetes deployment configuration
                 sh 'kubectl apply -f kubernetes/deployment.yaml'
             }
         }
