@@ -3,13 +3,17 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Ensure you're pulling the main branch from GitHub
-                git branch: 'main', url: 'https://github.com/Ilyes-Kasdallah/calendar-service.git'
+                git 'https://github.com/ilyes-kasdallah/calendar-service.git'
             }
         }
         stage('Build') {
             steps {
-                sh 'mvn clean package'
+                script {
+                    docker.image('maven:3.8.1-jdk-11').inside {
+                        // Run the Maven build inside the Maven container
+                        sh 'mvn clean package'
+                    }
+                }
             }
         }
         stage('Docker Build & Push') {
